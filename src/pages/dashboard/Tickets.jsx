@@ -74,7 +74,7 @@ export default function Tickets() {
         </div>
 
         {showCreate && (
-          <div className="p-4 border-b border-gray-200 dark:border-gray-700 bg-blue-50 dark:bg-blue-900/10">
+          <div className="p-4 border-b border-gray-200 dark:border-gray-700 bg-primary-50 dark:bg-primary-900/10">
             <h4 className="font-medium text-gray-900 dark:text-white mb-3 text-sm">Create Ticket</h4>
             <form onSubmit={e => { e.preventDefault(); createMutation.mutate(createForm); }} className="space-y-2">
               {['name', 'email', 'subject'].map(f => (

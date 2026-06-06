@@ -1,7 +1,9 @@
 import axios from 'axios';
 
+const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
+
 const api = axios.create({
-  baseURL: '/api',
+  baseURL: `${API_BASE}/api`,
   timeout: 30000,
   headers: { 'Content-Type': 'application/json' },
 });
@@ -112,15 +114,44 @@ export const settingsAPI = {
     }
     return api.patch('/settings/company', data);
   },
-  updateWidget: (data) => api.patch('/settings/widget', data),
+  updateWidget: (data) => {
+    if (data instanceof FormData) {
+      return api.patch('/settings/widget', data, { headers: { 'Content-Type': 'multipart/form-data' } });
+    }
+    return api.patch('/settings/widget', data);
+  },
   getWidgetScript: () => api.get('/settings/widget-script'),
 };
 
-export const billingAPI = {
-  getPlans: () => api.get('/billing/plans'),
-  getSubscription: () => api.get('/billing/subscription'),
-  createCheckout: (data) => api.post('/billing/checkout', data),
-  createPortal: () => api.post('/billing/portal'),
+
+// Portal API — uses its own axios instance with portal token
+const portalApi = axios.create({
+  baseURL: `${API_BASE}/api`,
+  timeout: 30000,
+  headers: { 'Content-Type': 'application/json' },
+});
+
+portalApi.interceptors.request.use((config) => {
+  const token = localStorage.getItem('portal_token');
+  if (token) config.headers.Authorization = `Bearer ${token}`;
+  return config;
+});
+
+portalApi.interceptors.response.use(
+  (res) => res.data,
+  (error) => Promise.reject(error.response?.data || { message: error.message })
+);
+
+export const portalAPI = {
+  getInfo: (companyId) => portalApi.get(`/portal/${companyId}/info`),
+  checkEmail: (companyId, email) => portalApi.post(`/portal/${companyId}/auth/check`, { email }),
+  register: (companyId, data) => portalApi.post(`/portal/${companyId}/auth/register`, data),
+  login: (companyId, data) => portalApi.post(`/portal/${companyId}/auth/login`, data),
+  forgotPassword: (companyId, email) => portalApi.post(`/portal/${companyId}/auth/forgot-password`, { email }),
+  getTickets: (companyId) => portalApi.get(`/portal/${companyId}/tickets`),
+  createTicket: (companyId, data) => portalApi.post(`/portal/${companyId}/tickets`, data),
+  getTicket: (companyId, ticketId) => portalApi.get(`/portal/${companyId}/tickets/${ticketId}`),
+  reply: (companyId, ticketId, content) => portalApi.post(`/portal/${companyId}/tickets/${ticketId}/reply`, { content }),
 };
 
 export default api;

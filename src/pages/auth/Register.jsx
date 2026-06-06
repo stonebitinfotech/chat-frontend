@@ -25,7 +25,7 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-primary-50 via-white to-primary-50 dark:from-gray-900 dark:via-gray-900 dark:to-gray-800 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-primary-600 mb-4 shadow-lg">
@@ -34,7 +34,7 @@ export default function Register() {
             </svg>
           </div>
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Create your account</h1>
-          <p className="text-gray-500 dark:text-gray-400 mt-1">Start your free trial — no credit card required</p>
+          <p className="text-gray-500 dark:text-gray-400 mt-1">SBIT - Live Chat · Free for everyone</p>
         </div>
 
         <div className="card p-8">
@@ -42,12 +42,12 @@ export default function Register() {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="label">Your name</label>
-                <input type="text" className="input" placeholder="John Doe" value={form.name}
+                <input type="text" className="input" placeholder="SBIT Admin" value={form.name}
                   onChange={e => setForm(p => ({ ...p, name: e.target.value }))} required />
               </div>
               <div>
                 <label className="label">Company name</label>
-                <input type="text" className="input" placeholder="Acme Inc." value={form.companyName}
+                <input type="text" className="input" placeholder="StoneBot Infotech" value={form.companyName}
                   onChange={e => setForm(p => ({ ...p, companyName: e.target.value }))} required />
               </div>
             </div>

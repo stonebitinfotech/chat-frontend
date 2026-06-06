@@ -41,7 +41,7 @@ export default function Dashboard() {
         />
         <StatCard label="New Chats" value={isLoading ? '...' : stats?.chats?.new}
           sub="Waiting for agent"
-          color="bg-blue-500"
+          color="bg-primary-500"
           icon={<svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" /></svg>}
         />
         <StatCard label="Open Tickets" value={isLoading ? '...' : stats?.tickets?.open}
@@ -71,7 +71,7 @@ export default function Dashboard() {
         </div>
         <div className="card p-5">
           <h3 className="font-semibold text-gray-900 dark:text-white mb-1">Ticket Resolution</h3>
-          <p className="text-3xl font-bold text-blue-600">
+          <p className="text-3xl font-bold text-primary-600">
             {stats?.tickets?.total ? Math.round((stats.tickets.closed / stats.tickets.total) * 100) : 0}%
           </p>
           <p className="text-xs text-gray-500 mt-1">{stats?.tickets?.closed || 0} tickets resolved</p>
@@ -89,8 +89,7 @@ export default function Dashboard() {
               { label: 'Open Tickets', to: '/dashboard/tickets', color: 'bg-yellow-50 dark:bg-yellow-900/20 text-yellow-700 dark:text-yellow-400' },
               { label: 'Manage Agents', to: '/dashboard/agents', color: 'bg-purple-50 dark:bg-purple-900/20 text-purple-700 dark:text-purple-400' },
               { label: 'View Analytics', to: '/dashboard/analytics', color: 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400' },
-              { label: 'Widget Settings', to: '/dashboard/settings', color: 'bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-400' },
-              { label: 'Upgrade Plan', to: '/dashboard/billing', color: 'bg-orange-50 dark:bg-orange-900/20 text-orange-700 dark:text-orange-400' },
+              { label: 'Widget Settings', to: '/dashboard/settings', color: 'bg-primary-50 dark:bg-primary-900/20 text-primary-700 dark:text-primary-400' },
             ].map(({ label, to, color }) => (
               <Link key={to} to={to} className={`${color} rounded-lg px-4 py-3 text-sm font-medium text-center hover:opacity-80 transition-opacity`}>
                 {label}
@@ -103,7 +102,7 @@ export default function Dashboard() {
           <h3 className="font-semibold text-gray-900 dark:text-white mb-4">Chat Status Breakdown</h3>
           <div className="space-y-3">
             {[
-              { label: 'New', count: stats?.chats?.new || 0, color: 'bg-blue-500', max: stats?.chats?.total || 1 },
+              { label: 'New', count: stats?.chats?.new || 0, color: 'bg-primary-500', max: stats?.chats?.total || 1 },
               { label: 'Active', count: stats?.chats?.active || 0, color: 'bg-green-500', max: stats?.chats?.total || 1 },
               { label: 'Closed', count: stats?.chats?.closed || 0, color: 'bg-gray-400', max: stats?.chats?.total || 1 },
             ].map(({ label, count, color, max }) => (

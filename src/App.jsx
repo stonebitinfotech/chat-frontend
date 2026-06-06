@@ -15,9 +15,11 @@ import Agents from './pages/dashboard/Agents';
 import Articles from './pages/dashboard/Articles';
 import Analytics from './pages/dashboard/Analytics';
 import Settings from './pages/dashboard/Settings';
-import Billing from './pages/dashboard/Billing';
+import PortalEntry from './pages/portal/PortalEntry';
+import PortalDashboard from './pages/portal/PortalDashboard';
+import PortalTicketDetail from './pages/portal/PortalTicketDetail';
 
-const ProtectedRoute = ({ children }) => {
+const ProtectedRoute = ({ children, roles }) => {
   const { user, loading } = useAuth();
   if (loading) {
     return (
@@ -26,7 +28,9 @@ const ProtectedRoute = ({ children }) => {
       </div>
     );
   }
-  return user ? children : <Navigate to="/login" replace />;
+  if (!user) return <Navigate to="/login" replace />;
+  if (roles && !roles.includes(user.role)) return <Navigate to="/dashboard/chats" replace />;
+  return children;
 };
 
 const GuestRoute = ({ children }) => {
@@ -49,18 +53,21 @@ const AppRoutes = () => (
     <Route path="/forgot-password" element={<GuestRoute><ForgotPassword /></GuestRoute>} />
     <Route path="/reset-password/:token" element={<GuestRoute><ResetPassword /></GuestRoute>} />
     <Route path="/dashboard" element={<ProtectedRoute><DashboardLayout /></ProtectedRoute>}>
-      <Route index element={<Dashboard />} />
+      <Route index element={<ProtectedRoute roles={['admin','manager']}><Dashboard /></ProtectedRoute>} />
       <Route path="chats" element={<LiveChats />} />
       <Route path="chats/:id" element={<LiveChats />} />
       <Route path="tickets" element={<Tickets />} />
       <Route path="tickets/:id" element={<Tickets />} />
-      <Route path="visitors" element={<Visitors />} />
-      <Route path="agents" element={<Agents />} />
-      <Route path="articles" element={<Articles />} />
-      <Route path="analytics" element={<Analytics />} />
-      <Route path="settings" element={<Settings />} />
-      <Route path="billing" element={<Billing />} />
+      <Route path="visitors" element={<ProtectedRoute roles={['admin','manager']}><Visitors /></ProtectedRoute>} />
+      <Route path="agents" element={<ProtectedRoute roles={['admin','manager']}><Agents /></ProtectedRoute>} />
+      <Route path="articles" element={<ProtectedRoute roles={['admin','manager']}><Articles /></ProtectedRoute>} />
+      <Route path="analytics" element={<ProtectedRoute roles={['admin','manager']}><Analytics /></ProtectedRoute>} />
+      <Route path="settings" element={<ProtectedRoute roles={['admin','manager']}><Settings /></ProtectedRoute>} />
     </Route>
+    {/* Customer Support Portal — public, no admin auth needed */}
+    <Route path="/portal/:companyId" element={<PortalEntry />} />
+    <Route path="/portal/:companyId/dashboard" element={<PortalDashboard />} />
+    <Route path="/portal/:companyId/tickets/:ticketId" element={<PortalTicketDetail />} />
     <Route path="*" element={<Navigate to="/dashboard" replace />} />
   </Routes>
 );

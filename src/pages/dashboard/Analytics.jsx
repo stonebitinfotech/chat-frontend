@@ -6,7 +6,7 @@ import {
   AreaChart, Area, BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend,
 } from 'recharts';
 
-const COLORS = ['#6366f1', '#22c55e', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4'];
+const COLORS = ['#ea4e00', '#22c55e', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4'];
 const PERIODS = ['today', 'week', 'month', 'year'];
 
 export default function Analytics() {
@@ -51,7 +51,7 @@ export default function Analytics() {
         <StatCard label="Total Chats" value={stats?.chats?.total} color="text-primary-600" />
         <StatCard label="Active Chats" value={stats?.chats?.active} color="text-green-600" />
         <StatCard label="Open Tickets" value={stats?.tickets?.open} color="text-yellow-600" />
-        <StatCard label="Avg Response" value={formatDuration(stats?.avgResponseTime)} color="text-blue-600" />
+        <StatCard label="Avg Response" value={formatDuration(stats?.avgResponseTime)} color="text-primary-600" />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -61,15 +61,15 @@ export default function Analytics() {
             <AreaChart data={dailyChats}>
               <defs>
                 <linearGradient id="chatGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#6366f1" stopOpacity={0.3} />
-                  <stop offset="95%" stopColor="#6366f1" stopOpacity={0} />
+                  <stop offset="5%" stopColor="#ea4e00" stopOpacity={0.3} />
+                  <stop offset="95%" stopColor="#ea4e00" stopOpacity={0} />
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
               <XAxis dataKey="_id" tick={{ fontSize: 11 }} tickFormatter={v => v?.slice(5)} />
               <YAxis tick={{ fontSize: 11 }} />
               <Tooltip />
-              <Area type="monotone" dataKey="count" stroke="#6366f1" strokeWidth={2} fill="url(#chatGrad)" name="Chats" />
+              <Area type="monotone" dataKey="count" stroke="#ea4e00" strokeWidth={2} fill="url(#chatGrad)" name="Chats" />
             </AreaChart>
           </ResponsiveContainer>
         </div>
@@ -99,7 +99,7 @@ export default function Analytics() {
                 <XAxis type="number" tick={{ fontSize: 11 }} />
                 <YAxis dataKey="agent.name" type="category" tick={{ fontSize: 11 }} width={80} />
                 <Tooltip />
-                <Bar dataKey="totalChats" fill="#6366f1" name="Total Chats" radius={[0, 4, 4, 0]} />
+                <Bar dataKey="totalChats" fill="#ea4e00" name="Total Chats" radius={[0, 4, 4, 0]} />
                 <Bar dataKey="closedChats" fill="#22c55e" name="Closed" radius={[0, 4, 4, 0]} />
               </BarChart>
             </ResponsiveContainer>

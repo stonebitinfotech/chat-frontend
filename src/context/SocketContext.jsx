@@ -21,7 +21,7 @@ export const SocketProvider = ({ children }) => {
     }
 
     const token = localStorage.getItem('token');
-    const socket = io('/', {
+    const socket = io(import.meta.env.VITE_SOCKET_URL || '/', {
       auth: { token },
       transports: ['websocket', 'polling'],
       reconnection: true,

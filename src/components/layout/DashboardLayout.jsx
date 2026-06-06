@@ -11,7 +11,6 @@ const pageTitles = {
   '/dashboard/agents': 'Agents',
   '/dashboard/analytics': 'Analytics',
   '/dashboard/settings': 'Settings',
-  '/dashboard/billing': 'Billing',
 };
 
 export default function DashboardLayout() {

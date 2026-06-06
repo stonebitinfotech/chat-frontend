@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { chatAPI, agentAPI } from '../../services/api';
 import { useSocket } from '../../context/SocketContext';
+import { useAuth } from '../../context/AuthContext';
 import ChatInbox from '../../components/chat/ChatInbox';
 import ConversationView from '../../components/chat/ConversationView';
 import VisitorPanel from '../../components/chat/VisitorPanel';
@@ -13,7 +14,9 @@ export default function LiveChats() {
   const navigate = useNavigate();
   const qc = useQueryClient();
   const { on, off } = useSocket();
+  const { user } = useAuth();
   const [showVisitorPanel, setShowVisitorPanel] = useState(true);
+  const isAgent = user?.role === 'agent';
 
   const { data: chatsData, isLoading } = useQuery({
     queryKey: ['conversations'],
@@ -33,18 +36,25 @@ export default function LiveChats() {
   useEffect(() => {
     const handleNewConversation = ({ conversation }) => {
       qc.invalidateQueries(['conversations']);
-      toast('New chat started!', { icon: '💬' });
+      if (!isAgent) toast('New chat started!', { icon: '💬' });
     };
     const handleMessage = () => qc.invalidateQueries(['conversations']);
+    const handleAssigned = ({ agentId }) => {
+      // Refresh list so agents see newly assigned chats appear
+      if (agentId === user?._id || !isAgent) qc.invalidateQueries(['conversations']);
+      if (isAgent && agentId === user?._id) toast('A chat was assigned to you!', { icon: '💬' });
+    };
 
     on('conversation:new', handleNewConversation);
     on('message:new', handleMessage);
+    on('conversation:assigned', handleAssigned);
 
     return () => {
       off('conversation:new', handleNewConversation);
       off('message:new', handleMessage);
+      off('conversation:assigned', handleAssigned);
     };
-  }, []);
+  }, [user?._id, isAgent]);
 
   const closeMutation = useMutation({
     mutationFn: () => chatAPI.close(selected._id),

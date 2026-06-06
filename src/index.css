@@ -25,7 +25,7 @@
   .card { @apply bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700; }
   .badge { @apply inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium; }
   .badge-green { @apply badge bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400; }
-  .badge-blue { @apply badge bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400; }
+  .badge-blue { @apply badge bg-primary-100 dark:bg-primary-900/30 text-primary-700 dark:text-primary-400; }
   .badge-yellow { @apply badge bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400; }
   .badge-red { @apply badge bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400; }
   .badge-gray { @apply badge bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300; }
