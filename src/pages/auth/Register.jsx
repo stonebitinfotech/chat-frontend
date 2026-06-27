@@ -47,7 +47,7 @@ export default function Register() {
               </div>
               <div>
                 <label className="label">Company name</label>
-                <input type="text" className="input" placeholder="StoneBot Infotech" value={form.companyName}
+                <input type="text" className="input" placeholder="StoneBit Infotech" value={form.companyName}
                   onChange={e => setForm(p => ({ ...p, companyName: e.target.value }))} required />
               </div>
             </div>
